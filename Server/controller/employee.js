@@ -19,7 +19,7 @@ class Controller {
                 let param = {
                     id: data.id,
                     employee_id: data.employee_id,
-                    role: data.role
+                    employee_role: data.employee_role
                 }
                 let token = generateToken(param)
                 res.status(200).json(token)
@@ -73,7 +73,7 @@ class Controller {
                 let param = {
                     id: data.id,
                     employee_id: data.employee_id,
-                    role: data.role
+                    employee_role: data.employee_role
                 }
                 let token = generateToken(param)
                 res.status(200).json(token)

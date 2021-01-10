@@ -5,14 +5,14 @@ async function authentication(req,res,next) {
     try {
         let {token} = req.headers
         let decoded = verifyToken(token)
-        
+        console.log(decoded, "<<<<<<<<<<<<<<<<<INI DECOEDDDDDDDDD")
         let user = Employee.findOne({
             where : {
                 employee_id : decoded.employee_id
             }
         })
         if (!user) throw {msg : "authentication failed", code : 401}
-        // if (decoded.role != 'admin') throw {msg : "you're not admin!", code : 401}
+        if (decoded.employee_role != 'admin') throw {msg : "you're not admin!", code : 401}
         req.employeeId = decoded.id
         next()
     } catch (err) {
