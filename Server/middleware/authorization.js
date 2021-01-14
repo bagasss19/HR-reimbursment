@@ -2,7 +2,7 @@ const {Reimbursment} = require('../models')
 
 function authorization(req,res,next) {
     let id = req.params.id
-    
+    console.log(id, "<<<id")
     Reimbursment.findByPk(id)
     .then(data =>{
         if (!data) throw {msg : "Reimbursment not found!", code : 404}
@@ -10,6 +10,7 @@ function authorization(req,res,next) {
         else next()
     })
     .catch(err => {
+        console.log(err, "<<<<<<<<ERRRRRR")
         next(err)
     })
 }

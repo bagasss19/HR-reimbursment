@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Card } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 import axios from 'axios'
-import {
-    Link
-} from "react-router-dom";
+// import {
+//     Link
+// } from "react-router-dom";
 
 export default function Profile() {
     const [data, setdata] = useState([]);
@@ -34,8 +34,8 @@ export default function Profile() {
                 <Card.Body>
                     <Card.Title>{data.employee_name}</Card.Title>
                     <Card.Text>
-                        <p>{data.employee_id}</p>
-                        <p>{data.employee_role}</p>
+                        <p>Employee ID : {data.employee_id}</p>
+                        <p>Role : {data.employee_role}</p>
                     </Card.Text>
                 </Card.Body>
             </Card>

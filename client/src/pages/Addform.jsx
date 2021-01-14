@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import '../App.css'
+import ImageUploader from 'react-images-upload';
 import axios from 'axios'
 
 export default function Login(props) {
@@ -9,27 +10,37 @@ export default function Login(props) {
     const [attachment, setattachment] = useState("")
 
     function add() {
-        axios({
-            url: 'http://localhost:3000/reimbursment',
-            method: 'post',
-            data: {
-                category, amount, attachment
-            },
+        const input = new FormData();
+        input.append('attachment', attachment)
+        input.append('category', category)
+        input.append('amount', amount)
+
+        // for (let pair of input.entries()) {
+        //     console.log(pair[0] + ', ' + pair[1]);
+        // }
+
+        const config = {
             headers: {
                 token: localStorage.token
             }
-        })
+        };
+        axios.post("http://localhost:3000/reimbursment", input, config)
             .then(function (response) {
                 // handle success
                 props.history.push('/')
-                console.log(response, "response<<<<<<<<<<< SUKSES GAKKKKKK")
-                
+
             })
             .catch(function (error) {
                 // handle error
-                console.log(error);
+                console.log(error, "<<<<<<<<<<<<<<ERRRORRR");
             })
     }
+
+    function onDrop(picture) {
+            console.log(picture[0], "<<<<<ada gak???")
+            setattachment(picture[0])
+    }
+
     return (
         <>
             <h1 style={{ marginTop: "50px" }}>Add Reimbursment</h1>
@@ -54,10 +65,22 @@ export default function Login(props) {
                     <Form.Control type="text" placeholder="Amount" onChange={e => setamount(e.target.value)} />
                 </Form.Group>
 
-                <Form.Group controlId="formBasicPassword">
+                {/* <Form.Group controlId="formBasicPassword">
                     <Form.Label>Attachment</Form.Label>
                     <Form.Control type="text" placeholder="Attachment" onChange={e => setattachment(e.target.value)} />
-                </Form.Group>
+                </Form.Group> */}
+
+
+                <ImageUploader
+                    withIcon={true}
+                    buttonText='Choose images'
+                    onChange={onDrop}
+                    imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                    maxFileSize={5242880}
+                    withPreview={true}
+                    singleImage={true}
+                />
+
                 <Button variant="primary" type="submit">Submit</Button>
             </Form>
         </>

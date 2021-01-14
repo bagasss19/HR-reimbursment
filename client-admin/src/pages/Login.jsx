@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import '../App.css'
-import axios from 'axios'
+import axios from '../config/axios'
 
 export default function Login(props) {
     const [id, setid] = useState("")
@@ -18,10 +18,8 @@ export default function Login(props) {
             props.history.push('/')
             window.location.reload();
           })
-          .catch(function (error) {
-            console.log(error);
-          })
     }
+    
     if (localStorage.token) {
        return (
            <h1>You Already Logged In</h1>

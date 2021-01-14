@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Card } from 'react-bootstrap'
+import { Button, Badge, Table, Image } from 'react-bootstrap'
 import axios from 'axios'
 import {
     Link
@@ -33,35 +33,44 @@ export default function Home() {
     }
 
     if (loading) {
-        return(<h1>Loading...</h1>)
+        return (<h1>Loading...</h1>)
     }
     return (
         <div>
             {/* <h1>Your Reimbursment</h1> */}
-            <Button variant="dark" style={{marginBottom : "30px", marginTop : '30px'}}><Link to="/add">Add Reimbursment</Link></Button>
+            <Button variant="light" style={{ marginBottom: "30px", marginTop: '30px' }}><Link to="/add">Add Reimbursment</Link></Button>
             {/* {JSON.stringify(data)} */}
-            <div className="container">
-                <div className="row">
+
+            <Table striped bordered hover size="sm">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th  style={{ width:"100px" }}>Image</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
                     {data.map((x) => (
-                        <div className="col-md-4 col-sm-6">
-                            <Card key={x.id} style={{ width: '18rem', marginRight : "20px"}}>
-                                <Card.Img variant="top" src={x.attachment} />
-                                <Card.Body>
-                                    <Card.Title>{x.category}</Card.Title>
-                                    <Card.Text>
-                                        <p>{numberWithCommas(x.amount)}</p>
-                                        <p>{x.status}</p>
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                            <br></br>
-                            {/* <Link to={`/detail/${pokemon.id}`}><button className="btn btn-primary btn-mrgn">
-                                Detail</button></Link> */}
-                            {/* <button className="btn btn-primary" onClick={() => dispatch({ type: "ADDFAV", value: pokemon.imageUrl })} >
-                                Add to Deck</button> */}
-                            <br></br><br></br>
-                        </div>))}
-                </div></div>
+                        <tr key={x.id}>
+                            <td>{x.id}</td>
+                            <td> <Image src={x.attachment} rounded style={{ height: "25px" }} /></td>
+                            <td>{x.category}</td>
+                            <td>Rp. {numberWithCommas(x.amount)}</td>
+                            {(() => {
+                                switch (x.status) {
+                                    case "Approved": return <h5><Badge variant="success">Approved</Badge></h5>;
+                                    case "Waiting": return <h5><Badge variant="warning">Waiting</Badge></h5>;
+                                    case "Rejected": return <h5><Badge variant="danger">Rejected</Badge></h5>;
+                                    default: return <h5>Not Confirmed</h5>;
+                                }
+                            })()}
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
         </div>
     )
 }

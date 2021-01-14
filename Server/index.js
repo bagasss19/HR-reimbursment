@@ -10,6 +10,7 @@ const err = require('./middleware/err')
 app.use(cors())
 app.use(express.urlencoded({ extended:true}))
 app.use(express.json())
+app.use(express.static(`${__dirname}/middleware`))
 
 app.use('/', employee)
 app.use('/admin', admin)

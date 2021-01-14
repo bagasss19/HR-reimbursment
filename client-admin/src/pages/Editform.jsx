@@ -11,7 +11,6 @@ export default function Editform(props) {
     const [category, setcategory] = useState("")
     const [status, setstatus] = useState("")
     const [amount, setamount] = useState(0)
-    const [attachment, setattachment] = useState("")
     const [loading, setloading] = useState(true)
 
     useEffect(() => {
@@ -26,7 +25,6 @@ export default function Editform(props) {
                 // handle success
                 console.log(response.data.amount, "response<<<<<<<<<<<")
                 setamount(response.data.amount)
-                setattachment(response.data.attachment)
                 setcategory(response.data.category)
                 setstatus(response.data.status)
                 setloading(false)
@@ -42,7 +40,7 @@ export default function Editform(props) {
             url: 'http://localhost:3000/reimbursment/' + id,
             method: 'put',
             data: {
-                category, amount, attachment, status
+                category, amount, status
             },
             headers: {
                 token: localStorage.token
@@ -70,7 +68,7 @@ export default function Editform(props) {
                 onSubmit={(e) => {
                     e.preventDefault()
                     edit()
-                    console.log(category, amount, attachment, "<<<<<<<<<<<<<<SUBMIT FORM");
+                    console.log(category, amount, "<<<<<<<<<<<<<<SUBMIT FORM");
                 }
                 }>
                 <Form.Group controlId="formBasicPassword">
@@ -89,13 +87,6 @@ export default function Editform(props) {
                     <Form.Control type="text" placeholder="Amount"
                         defaultValue={amount}
                         onChange={e => setamount(e.target.value)} />
-                </Form.Group>
-
-                <Form.Group controlId="formBasicPassword">
-                    <Form.Label>Attachment</Form.Label>
-                    <Form.Control type="text" placeholder="Attachment"
-                        defaultValue={attachment}
-                        onChange={e => setattachment(e.target.value)} />
                 </Form.Group>
 
                 <Form.Group controlId="formBasicPassword">

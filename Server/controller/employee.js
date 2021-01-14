@@ -30,7 +30,6 @@ class Controller {
     }
 
     static profile(req, res, next) {
-        console.log(req.employeeId, "<<<<<<INI EMPLOYEE")
         Employee.findAll({
             where : {
                 id : req.employeeId
@@ -46,7 +45,6 @@ class Controller {
     }
 
     static allprofile(req, res, next) {
-        console.log(req.employeeId, "<<<<<<INI EMPLOYEE")
         Employee.findAll()
         .then(data => {
             res.status(200).json(data)

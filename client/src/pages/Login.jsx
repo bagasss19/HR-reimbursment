@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import '../App.css'
-import axios from 'axios'
+import axios from '../config/axios'
 
 export default function Login(props) {
     const [id, setid] = useState("")
     const [password, setpassword] = useState("")
 
     function login() {
-        axios.post('http://localhost:3000', {
+        axios.post('/', {
             employee_id : id,
             password
           })
           .then(function (response) {
-            console.log(response, "RESPONSEEEEE<<<<<<<<<");
+            console.log(response, "RESPONSEEEEE LOGINNNN<<<<<<<<<");
             localStorage.token = response.data
             props.history.push('/')
             window.location.reload();
