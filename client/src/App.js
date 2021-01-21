@@ -1,80 +1,40 @@
+
+import React, { useState } from 'react';
 import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
+
+import Navbar from './components/Navbar'
+// import Footer from './components/Footer'
+import PrivateRoute from './components/PrivateRoute'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Addform from './pages/Addform'
 import Profile from './pages/Profile'
-
-import { Navbar, Nav, Form, Button } from 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import Editform from './pages/Editform'
 
 function App() {
-  if (localStorage.token) {
-    return (<div className="App">
-    <Router>
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand> <Link to="/">HR Reimbursment</Link></Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link><Link to="/">Home</Link></Nav.Link>
-            <Nav.Link><Link to="/profile">Profile</Link></Nav.Link>
-            {/* <Nav.Link><Link to="/login">Login</Link></Nav.Link> */}
-          </Nav>
-          <Form inline>
-            <Button variant="outline-primary" onClick={(e) => {
-              e.preventDefault()
-              localStorage.clear()
-              window.location.reload();
-            }}>Logout</Button>
-          </Form>
-        </Navbar.Collapse>
-      </Navbar>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/login" component={Login} />
-        <Route path="/add" component={Addform} />
-        <Route path="/profile" component={Profile} />
-      </Switch>
-    </Router>
-  </div>
-  )
-  }
-  else {
+  const[isAutheticated] = useState(localStorage.token ? true : false)
+  
   return (
     <div className="App">
       <Router>
-        <Navbar bg="light" expand="lg">
-          <Navbar.Brand> <Link to="/">HR Reimbursment</Link></Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-              {/* <Nav.Link><Link to="/">Home</Link></Nav.Link> */}
-              <Nav.Link><Link to="/login">Login</Link></Nav.Link>
-            </Nav>
-            {/* <Form inline>
-              <Button variant="outline-primary" onClick={(e) => {
-                e.preventDefault()
-                localStorage.clear()
-              
-              }}>Logout</Button>
-            </Form> */}
-          </Navbar.Collapse>
-        </Navbar>
+      <Navbar/>
         <Switch>
-          <Route exact path="/" component={Home} />
+          <PrivateRoute exact path="/" component={Home} auth={isAutheticated}/>
           <Route path="/login" component={Login} />
-          <Route path="/add" component={Addform} />
+          <PrivateRoute path="/add" component={Addform} /> 
+          <PrivateRoute path="/profile" component={Profile} /> 
+          <PrivateRoute path="/:id" component={Editform} />
         </Switch>
+        {/* <Footer/> */}
       </Router>
     </div>
-  );
- }
+
+  )
 }
 
 export default App;

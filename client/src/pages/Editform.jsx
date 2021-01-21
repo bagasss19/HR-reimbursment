@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Button } from 'react-bootstrap'
 import '../App.css'
 import axios from 'axios'
 import {
@@ -33,7 +32,7 @@ export default function Editform(props) {
                 // handle error
                 console.log(error);
             });
-    }, [])
+    }, [id])
 
     function edit() {
         axios({
@@ -64,44 +63,49 @@ export default function Editform(props) {
     return (
         <>
             <h1 style={{ marginTop: "50px" }}>Edit Reimbursment {id}</h1>
-            <Form style={{ marginTop: "100px", width: "50%", marginLeft: "300px" }}
+            <form className="form" style={{ marginTop: "100px", width: "50%", marginLeft: "300px" }}
                 onSubmit={(e) => {
                     e.preventDefault()
                     edit()
                     console.log(category, amount, "<<<<<<<<<<<<<<SUBMIT FORM");
                 }
                 }>
-                <Form.Group controlId="formBasicPassword">
-                    <Form.Label>Category</Form.Label>
-                    <Form.Control as="select"
-                        defaultValue={category}
-                        onChange={e => setcategory(e.target.value)}>
-                        <option>Food & Beverages</option>
-                        <option>Transportation</option>
-                        <option>Office Supplies</option>
-                    </Form.Control>
-                </Form.Group>
 
-                <Form.Group controlId="formGroupEmail">
-                    <Form.Label>Amount</Form.Label>
-                    <Form.Control type="text" placeholder="Amount"
+                <div className="field">
+                    <label className="label is-family-code">Category</label>
+                    <div className="select is-info" style={{ marginBottom: "30px" }}>
+                        <select
+                            defaultValue={category}
+                            onChange={e => setcategory(e.target.value)}>
+                            <option>Food & Beverages</option>
+                            <option>Transportation</option>
+                            <option>Office Supplies</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div className="field">
+                    <label className="label is-family-code">Category</label>
+                    <input className="input" type="text" placeholder="Amount"
                         defaultValue={amount}
                         onChange={e => setamount(e.target.value)} />
-                </Form.Group>
+                </div>
 
-                <Form.Group controlId="formBasicPassword">
-                    <Form.Label>Approval</Form.Label>
-                    <Form.Control as="select"
-                        defaultValue={status}
-                        onChange={e => setstatus(e.target.value)}>
-                        <option>Waiting</option>
-                        <option>Approved</option>
-                        <option>Rejected</option>
-                    </Form.Control>
-                </Form.Group>
+                <div className="field">
+                    <label className="label is-family-code">Approval</label>
+                    <div className="select is-info" style={{ marginBottom: "30px" }}>
+                        <select
+                            defaultValue={status}
+                            onChange={e => setstatus(e.target.value)}>
+                            <option>Waiting</option>
+                            <option>Approved</option>
+                            <option>Rejected</option>
+                        </select>
+                    </div>
+                </div>
 
-                <Button variant="primary" type="submit">Submit</Button>
-            </Form>
+                <button className="button is-black" type="submit">Submit</button>
+            </form>
         </>
     )
 }

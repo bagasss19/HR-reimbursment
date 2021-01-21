@@ -1,4 +1,5 @@
 const {Reimbursment, Employee} = require('../models')
+const uploadFile = require("../middleware/upload");
 
 class Controller {
     static read(req,res,next) {
@@ -34,16 +35,24 @@ class Controller {
         })
     }
 
-    static add (req,res,next) {
-        req.body.employee_id = req.employeeId
-        Reimbursment.create(req.body)
-        .then(data => {
-            res.status(201).json(data)
-        })
-        .catch(err => {
+    static async add(req, res, next) {
+        try {
+            await uploadFile(req, res);
+            if (req.file == undefined) {
+                return res.status(400).send({ message: "Please upload a file!" });
+            }
+
+            req.body.attachment = 'http://localhost:3000/upload/' + req.file.originalname
+            Reimbursment.create(req.body)
+            res.status(200).send({
+                message: "Add Reimburst Success!",
+            });
+        } catch (err) {
             next(err)
-        })
+            console.log(err, "<<<<<<<<ERRORRR")
+        }
     }
+
 
     static edit (req,res,next) {
         Reimbursment.update(req.body, {

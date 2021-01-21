@@ -13,7 +13,6 @@ class Controller {
             .then(data => {
                 if (!employee_id || !password) throw ({ msg: "password or employee id cannot be empty!", code: 400 })
                 if (!data) throw ({ msg: "invalid employee id or password!", code: 400 })
-                // if (data.role != 'admin') throw ({ msg: "you're not admin!", code: 401 })
                 let checkPass = compare(password, data.password)
                 if (!checkPass) throw ({ msg: "invalid id or password!", code: 400 })
                 let param = {
@@ -22,7 +21,7 @@ class Controller {
                     employee_role: data.employee_role
                 }
                 let token = generateToken(param)
-                res.status(200).json(token)
+                res.status(200).json({token, role : param.employee_role})
             })
             .catch(err => {
                 next(err)
